@@ -1,6 +1,6 @@
 import React from "react";
-import { AircraftView } from "./AircraftView";
-import { TaskView } from "./TaskView";
+import { AircraftListView } from "./AircraftListView";
+import { AircraftChecklistView } from "./AircraftChecklistView";
 
 export const App = () => {
   const [view, setView] = React.useState("aircraft");
@@ -11,15 +11,17 @@ export const App = () => {
       <div style={{ margin: "10px 0", fontWeight: "bold" }}>
         Trip Risk Assessment
       </div>
-      {view == "aircraft" && (
-        <AircraftView
+      {/* AIRCRAFT LIST */}
+      {view == "aircraft" && (        
+        <AircraftListView
           setView={(value) => {
             setView("tasks");
             setCurrentAircraft(value);
           }}
         />
       )}
-      {view == "tasks" && <TaskView aircraft={currentAircraft} />}
+      {/* AIRCRAFT CHECK LIST */}
+      {view == "tasks" && <AircraftChecklistView aircraft={currentAircraft} goBack={()=>setView("aircraft")} />}
     </div>
   );
 };
