@@ -1,0 +1,191 @@
+@color: #377feb;
+
+.modal {
+  position: fixed;
+  top: 30%;
+  z-index: 300;
+  width: 95%;
+  background-color: white;
+  border: 1px solid #949494c4;
+  border-radius: 4px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  box-shadow: #7777779c 4px 4px 14px;
+  min-height: 155px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 350px;
+}
+
+.modal-header {
+  font-size: 20px;
+}
+
+.modal-container {
+  position: fixed;
+  height: 100vh;
+  z-index: 299;
+  width: 100vw;
+  background-color: #8080804f;
+  top: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-body {
+  display: flex;
+  align-items: flex-start;
+  text-align: left;
+  justify-content: space-between;
+}
+.modal-add-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+
+  .modal-risk {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    input {
+      border: 2px solid rgba(128, 128, 128, 0.432);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 5px 0 5px 15px;
+      font-size: 18px;
+      border-radius: 5px;
+      width: 25px;
+      height: 25px;
+      margin-left: 10px;
+    }
+  }
+
+  .modal-description {
+    width: 100%;
+    textarea {
+      width: 100%;
+      border: 2px solid rgba(128, 128, 128, 0.432);
+      border-radius: 5px;
+      padding: 10px;
+      width: 90%;
+      height: 65px;
+      margin-top: 10px;
+    }
+  }
+}
+
+.modal-footer {
+  display: flex;
+  flex-direction: row;
+  margin: 14px 0px 10px;
+
+  button:first-child {
+    margin-right: 20px;
+  }
+}
+
+#task-view {
+  .task {
+    display: flex;
+    justify-content: space-around;
+    background-color: white;
+    align-items: center;
+    margin-bottom: 2px;
+    position: relative;
+  }
+
+  .task-risk-status {
+    min-width: 70px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .drag-menu {
+    color: grey;
+    width: 20px;
+    display: flex;
+    margin-left: 10px;
+  }
+
+  .task-item {
+    width: 90%;
+    text-align: left;
+    margin: 0 15px;
+  }
+
+  .edit-description-input {
+    border: 2px solid rgba(128, 128, 128, 0.432);
+    border-radius: 5px;
+    padding: 10px;
+    width: 90%;
+    height: 55px;
+    margin-top: 20px;
+    margin-right: 10px;
+  }
+
+  .edit-description-actions {
+    display: flex;
+    flex-direction: row;
+    margin: 14px 0px 22px;
+    justify-content: space-between;
+    width: 100%;
+
+    button:first-child {
+      margin-right: 20px;
+    }
+  }
+
+  .edit-risk {
+    height: 100%;
+    display: flex;
+  }
+
+  .edit-risk-input {
+    border: 2px solid rgba(128, 128, 128, 0.432);
+    font-size: 18px;
+    border-radius: 5px;
+    width: 35px;
+    height: 35px;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .done-editing {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-top: 30px;
+  }
+
+  .tasks-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #bdbdbd4d;
+    padding-top: 3px;
+  }
+
+  .aircraft-edit-actions {
+    width: 80px;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .aircraft-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 23px;
+    padding: 17px 5px;
+  }
+}
+
+.aircraft-view {
+}
+
+.new-aircraft {
+}

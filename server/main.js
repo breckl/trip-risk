@@ -1,31 +1,25 @@
-import { Meteor } from 'meteor/meteor';
-import { LinksCollection } from '/imports/api/links';
-
-function insertLink({ title, url }) {
-  LinksCollection.insert({title, url, createdAt: new Date()});
-}
+import { Meteor } from "meteor/meteor";
+import { TasksCollection } from "/imports/api/tasks";
+import { AircraftsCollection } from "/imports/api/aircrafts";
+import { tasks } from "./InitialData";
 
 Meteor.startup(() => {
-  // If the Links collection is empty, add some data.
-  if (LinksCollection.find().count() === 0) {
-    insertLink({
-      title: 'Do the Tutorial',
-      url: 'https://www.meteor.com/tutorials/react/creating-an-app'
+  if (AircraftsCollection.find().count() === 0) {
+    AircraftsCollection.insert({
+      aircraftId: 1,
+      name: "Twin Cessna",
+      passingValue: 10,
     });
-
-    insertLink({
-      title: 'Follow the Guide',
-      url: 'http://guide.meteor.com'
+    AircraftsCollection.insert({
+      aircraftId: 2,
+      name: "P-51 Mustang",
+      passingValue: 10,
     });
-
-    insertLink({
-      title: 'Read the Docs',
-      url: 'https://docs.meteor.com'
-    });
-
-    insertLink({
-      title: 'Discussions',
-      url: 'https://forums.meteor.com'
+  }
+  if (TasksCollection.find({}).count() === 0) {
+    console.log("adding default data");
+    tasks.forEach((i) => {
+      TasksCollection.insert(i);
     });
   }
 });

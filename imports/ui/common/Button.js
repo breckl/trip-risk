@@ -11,15 +11,15 @@ export const SecondaryButton = ({ children, ...props }) => {
 export const PrimaryButton = ({ children, ...props }) => {
   return (
     <button className="button primary-button" {...props}>
-    {children}
-  </button>  
-  )
-}
-
-export const LinkButton = ({ children, ...props}) => {
-  return (
-    <button className="link-button" {...props}>
       {children}
     </button>
-  )
-}
+  );
+};
+
+export const LinkButton = ({ children, ...props }) => {
+  return (
+    <button className="button link-button" {...props}>
+      {children}
+    </button>
+  );
+};
