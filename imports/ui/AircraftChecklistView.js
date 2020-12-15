@@ -1,10 +1,10 @@
 import React from "react";
-import { useTracker } from "meteor/react-meteor-data";
+// import { useTracker } from "meteor/react-meteor-data";
 import { SecondaryButton, LinkButton, PrimaryButton } from "./common/Button";
 import { PencilFill, TrashFill, ChevronLeft } from "react-bootstrap-icons";
 import { useHistory, useParams } from "react-router-dom";
-import { TasksCollection } from "/imports/api/tasks";
-import { AircraftsCollection } from "/imports/api/aircrafts";
+// import { TasksCollection } from "/imports/api/tasks";
+// import { AircraftsCollection } from "/imports/api/aircrafts";
 import Modal from "react-bootstrap/modal";
 import { HiRefresh, HiThumbDown, HiThumbUp } from "react-icons/hi";
 import { FaCheck } from "react-icons/fa";
@@ -157,7 +157,6 @@ export const AircraftChecklistView = () => {
     setTasks(movedTasks);
   };
 
-  // const progressMessage = "Im the message";
   const percent = currentValue / aircraft.passingValue;
   const progressMessage =
     percent >= 1
@@ -214,10 +213,7 @@ export const AircraftChecklistView = () => {
         </div>
       </div>
       <div className="tasks-container">
-        <DragDropContext
-          onDragEnd={(e) => onDragEnd(e)}
-          onDragStart={(e) => console.log(e)}
-        >
+        <DragDropContext onDragEnd={(e) => onDragEnd(e)}>
           <Droppable droppableId="droppable">
             {(provided, snapshot) => (
               <div
@@ -369,13 +365,7 @@ export const AircraftChecklistView = () => {
               <PrimaryButton
                 onClick={(e) => {
                   e.preventDefault();
-                  addNewTask(
-                    // {
-                    addingTask,
-                    //   order: task.order + 1,
-                    // },
-                    addingTask.order - 1
-                  );
+                  addNewTask(addingTask, addingTask.order - 1);
                   setAddingTask(false);
                 }}
               >
@@ -407,23 +397,9 @@ const Task = ({
   const [completed, setCompleted] = React.useState(false);
   const [adding, setAdding] = React.useState(false);
   const [removing, setRemoving] = React.useState(false);
-  const [newTask, setNewTask] = React.useState({
-    description: "",
-    riskValue: "",
-    itemType: "task",
-    aircraftId: parseInt(aircraftId),
-    order: task.order + 1,
-  });
 
   React.useEffect(() => {
     setUpdatedTask(task);
-    setNewTask({
-      description: "",
-      riskValue: "",
-      itemType: "task",
-      aircraftId: parseInt(aircraftId),
-      order: task.order + 1,
-    });
   }, [task.id]);
 
   return (
@@ -534,60 +510,6 @@ const Task = ({
           )}
         </div>
       )}
-      {/* {adding && (
-        <div className="modal-container">
-          <div className="modal">
-            <Modal.Header>Add a new task</Modal.Header>
-            <Modal.Body>
-              <div className="modal-add-section">
-                <div className="modal-description">
-                  Description:
-                  <textarea
-                    onChange={(e) =>
-                      setNewTask({ ...newTask, description: e.target.value })
-                    }
-                  />
-                </div>
-                <div className="modal-risk">
-                  Risk Value:
-                  <input
-                    style={{
-                      width: "25px",
-                      height: "25px",
-                      fontSize: "19px",
-                      paddingLeft: "15px",
-                    }}
-                    onChange={(e) =>
-                      setNewTask({ ...newTask, riskValue: e.target.value })
-                    }
-                    type="number"
-                  />
-                </div>
-              </div>
-            </Modal.Body>
-            <Modal.Footer>
-              <PrimaryButton
-                onClick={(e) => {
-                  e.preventDefault();
-                  addNewTask(
-                    {
-                      ...newTask,
-                      order: task.order + 1,
-                    },
-                    task.order
-                  );
-                  setAdding(false);
-                }}
-              >
-                Save
-              </PrimaryButton>
-              <SecondaryButton onClick={() => setAdding(false)}>
-                Cancel
-              </SecondaryButton>
-            </Modal.Footer>
-          </div>
-        </div>
-      )} */}
       {editing && (
         <LinkButton
           onClick={() => {
