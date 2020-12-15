@@ -25,7 +25,7 @@
 .modal-container {
   position: fixed;
   height: 100vh;
-  z-index: 299;
+  z-index: 1099;
   width: 100vw;
   background-color: #8080804f;
   top: 0;
@@ -159,7 +159,7 @@
     display: flex;
     justify-content: center;
     align-content: center;
-    margin-top: 30px;
+    // margin-top: 30px;
   }
 
   .tasks-container {
@@ -167,6 +167,10 @@
     flex-direction: column;
     background-color: #bdbdbd4d;
     padding-top: 3px;
+    // max-height: 65vh;
+    // height: 60vh;
+    margin-bottom: 20px;
+    // overflow: scroll;
   }
 
   .aircraft-edit-actions {
@@ -175,8 +179,20 @@
     justify-content: space-evenly;
   }
 
+  .header-container {
+    position: sticky;
+    background-color: white;
+    z-index: 1000;
+    top: 50px;
+    // box-shadow: #00000024 0px 4px 3px 0px;
+  }
+
   .aircraft-header {
     display: flex;
+    // position: sticky;
+    // background-color: white;
+    // z-index: 1000;
+    // top: 0;
     justify-content: space-between;
     align-items: center;
     font-size: 23px;
@@ -188,4 +204,24 @@
 }
 
 .new-aircraft {
+}
+
+.assessment-container {
+  position: sticky;
+  bottom: 0;
+  width: 100vw;
+  padding: 10px 0 20px 0;
+  background-color: white;
+  z-index: 1000;
+  max-width: 600px;
+  // box-shadow: black 0px 4px 10px 1px;
+
+  .total {
+    font-size: 35px;
+    color: rgb(88, 88, 88);
+  }
+
+  .progress-message {
+    color: rgb(88, 88, 88);
+  }
 }

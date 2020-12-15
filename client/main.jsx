@@ -4,10 +4,9 @@ import { render } from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "/imports/ui/App";
 import localforage from "localforage";
-// var foo = new Ground.Collection("test");
-console.log(localforage);
+import { tasks } from "./InitialData";
+
 Meteor.startup(() => {
-  console.log("config");
   localforage.config({
     driver: localforage.WEBSQL, // Force WebSQL; same as using setDriver()
     name: "tripRisk",
@@ -17,23 +16,36 @@ Meteor.startup(() => {
     description: "Trip Risk Data",
   });
 
-  var aircrafts = localforage.createInstance({
-    name: "aircrafts",
-  });
-
-  // aircrafts.setItem("test", "testing this");
-  aircrafts.getItem("test").then((resp) => {
+  // localforage.removeItem("tasks");
+  // localforage.removeItem("aircrafts");
+  localforage.getItem("aircrafts").then((resp) => {
     console.log(resp);
+    if (!resp) {
+      localforage.setItem("aircrafts", [
+        {
+          aircraftId: 2,
+          name: "P-51 Mustang",
+          passingValue: 10,
+        },
+        {
+          aircraftId: 1,
+          name: "Twin Cessna",
+          passingValue: 10,
+        },
+      ]);
+    }
   });
-
-  var tasks = localforage.createInstance({
-    name: "tasks",
+  console.log("start up");
+  localforage.getItem("tasks").then((resp) => {
+    console.log(resp);
+    if (!resp) {
+      localforage.setItem("tasks", tasks);
+    }
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>,
+      document.getElementById("react-target")
+    );
   });
-  // console.log(foo);
-  render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>,
-    document.getElementById("react-target")
-  );
 });

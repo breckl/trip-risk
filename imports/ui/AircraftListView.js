@@ -1,17 +1,22 @@
 import React from "react";
-import { useTracker } from "meteor/react-meteor-data";
 import { SecondaryButton, PrimaryButton } from "./common/Button";
-import { AircraftsCollection } from "/imports/api/aircrafts";
 import { useHistory } from "react-router-dom";
+import localforage from "localforage";
 
 export const AircraftListView = () => {
   let history = useHistory();
-  let { aircrafts, loading } = useTracker(() => {
-    return {
-      loading: !Meteor.subscribe("allAircrafts").ready(),
-      aircrafts: AircraftsCollection.find({}).fetch(),
-    };
-  });
+  const [aircrafts, setAircrafts] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  React.useEffect(() => {
+    localforage.getItem("aircrafts").then((resp) => {
+      if (!resp || resp.length == 0) {
+        setLoading(false);
+        return;
+      }
+      setAircrafts(resp);
+      setLoading(false);
+    });
+  }, []);
   return loading ? (
     <div>loading</div>
   ) : (
@@ -26,7 +31,6 @@ export const AircraftListView = () => {
       {aircrafts.map((plane) => {
         return (
           <SecondaryButton
-            // className="section"
             style={{ width: "80%", marginBottom: "15px", height: "45px" }}
             key={plane.aircraftId}
             onClick={() => history.push(`/tasks/${plane.aircraftId}`)}

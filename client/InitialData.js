@@ -10,7 +10,7 @@ export const tasks = [
   {
     id: 2,
     aircraftId: 1,
-    order: 6,
+    order: 5,
     itemType: "task",
     description: "Less than 30 hours in last 90 days",
     riskValue: 5,
@@ -33,18 +33,18 @@ export const tasks = [
   },
   {
     id: 5,
-    description: "Less than 200 hours in type",
     aircraftId: 2,
-    itemType: "task",
     order: 1,
+    itemType: "task",
+    description: "Less than 200 hours in type",
     riskValue: 5,
   },
   {
     id: 6,
-    description: "Less than 30 hours in last 90 days",
     aircraftId: 2,
-    itemType: "task",
     order: 2,
+    itemType: "task",
+    description: "Less than 30 hours in last 90 days",
     riskValue: 5,
   },
   {
@@ -82,9 +82,9 @@ export const tasks = [
   {
     id: 11,
     aircraftId: 1,
-    description: "“Duty day” that exceeds 14 hours",
-    itemType: "task",
     order: 3,
+    itemType: "task",
+    description: "“Duty day” that exceeds 14 hours",
     riskValue: 10,
   },
 ];
