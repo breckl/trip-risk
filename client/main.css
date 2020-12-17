@@ -8,6 +8,10 @@ body {
   height: 100vh;
 }
 
+textarea {
+  font-family: sans-serif;
+}
+
 .header {
   height: 50px;
   display: flex;
@@ -36,7 +40,7 @@ body {
 
 .link-button {
   background: transparent;
-  color: #1e5ab3;
+  color: #377feb;
   text-decoration: underline;
   border: none;
   box-shadow: none;

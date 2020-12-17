@@ -1,9 +1,10 @@
 import React, { useRef } from "react";
 import { SecondaryButton, PrimaryButton } from "./common/Button";
-import { PencilFill, TrashFill, ChevronLeft } from "react-bootstrap-icons";
+import { PencilFill, TrashFill } from "react-bootstrap-icons";
 import { useHistory, useParams } from "react-router-dom";
 import Modal from "react-bootstrap/modal";
 import { MdMenu } from "react-icons/md";
+import { FaCheck, FaChevronLeft } from "react-icons/fa";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import localforage from "localforage";
 
@@ -108,7 +109,7 @@ export const NewAircraft = () => {
             style={{ width: "80px", padding: "0px" }}
             onClick={() => history.push("/")}
           >
-            <ChevronLeft size={23} />
+            <FaChevronLeft size={26} color="#377feb" />
           </div>
           {/* {!editAircraftName && (
             <span
@@ -138,7 +139,17 @@ export const NewAircraft = () => {
                 setEditAircraftName(true);
               }}
             >
-              {aircraft?.name || "Click to Edit Name"}
+              {aircraft?.name || (
+                <span style={{ color: "#377feb" }}>Unnamed Aircraft</span>
+              )}
+              <span
+                onClick={() => {
+                  setEditAircraftName(true);
+                }}
+                style={{ marginLeft: 10 }}
+              >
+                <PencilFill size={21} color="#377feb" />
+              </span>
             </span>
           ) : (
             <input
@@ -150,6 +161,7 @@ export const NewAircraft = () => {
               onChange={(e) =>
                 setAircraft({ ...aircraft, name: e.target.value })
               }
+              style={{ fontSize: 21, padding: 5 }}
             />
           )}
           <div style={{ width: "80px" }} />
@@ -177,6 +189,7 @@ export const NewAircraft = () => {
           <div className="task-item">
             <div className="edit-risk">
               <textarea
+                placeholder="Task description"
                 className="edit-description-input"
                 value={newTasks.description}
                 onChange={(e) =>
@@ -187,6 +200,7 @@ export const NewAircraft = () => {
                 }
               />
               <input
+                placeholder="Risk value"
                 type="number"
                 className="form-control edit-risk-input"
                 value={newTasks.riskValue}
@@ -361,10 +375,10 @@ const Task = ({ task, updateTask, setDeletingTask }) => {
               setEditTask(true);
             }}
           >
-            <PencilFill size={21} color="blue" />
+            <PencilFill size={21} color="#377feb" />
           </div>
           <div className="section" onClick={() => setDeletingTask(task)}>
-            <TrashFill color="red" size={21} />
+            <TrashFill color="#e64e4e" size={21} />
           </div>
         </div>
       )}

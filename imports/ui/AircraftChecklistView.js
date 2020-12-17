@@ -1,13 +1,13 @@
 import React from "react";
 import { useTracker } from "meteor/react-meteor-data";
 import { SecondaryButton, LinkButton, PrimaryButton } from "./common/Button";
-import { PencilFill, TrashFill, ChevronLeft } from "react-bootstrap-icons";
+import { PencilFill, TrashFill } from "react-bootstrap-icons";
 import { useHistory, useParams } from "react-router-dom";
 import { TasksCollection } from "/imports/api/tasks";
 import { AircraftsCollection } from "/imports/api/aircrafts";
 import Modal from "react-bootstrap/modal";
 import { HiRefresh, HiThumbDown, HiThumbUp } from "react-icons/hi";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaChevronLeft } from "react-icons/fa";
 import { MdMenu } from "react-icons/md";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -182,7 +182,7 @@ export const AircraftChecklistView = () => {
               style={{ width: "80px", padding: "0px" }}
               onClick={() => history.push("/")}
             >
-              <ChevronLeft size={23} />
+              <FaChevronLeft size={26} color="#377feb" />
             </div>
           ) : (
             <div
@@ -199,10 +199,10 @@ export const AircraftChecklistView = () => {
                   return setEditAircraft(!editAircraft);
                 }}
               >
-                <PencilFill size={23} color="blue" />
+                <PencilFill size={23} color="#377feb" />
               </div>
               <div className="section" onClick={() => setDeleteAircraft(true)}>
-                <TrashFill color="red" size={23} />
+                <TrashFill color="#e64e4e" size={23} />
               </div>
             </div>
           ) : (
@@ -335,8 +335,8 @@ export const AircraftChecklistView = () => {
             <Modal.Body>
               <div className="modal-add-section">
                 <div className="modal-description">
-                  Description:
                   <textarea
+                    placeholder="Task description"
                     onChange={(e) =>
                       setAddingTask({
                         ...addingTask,
@@ -346,8 +346,8 @@ export const AircraftChecklistView = () => {
                   />
                 </div>
                 <div className="modal-risk">
-                  Risk Value:
                   <input
+                    placeholder="Risk value"
                     style={{
                       width: "25px",
                       height: "25px",
@@ -449,6 +449,7 @@ const Task = ({
           <>
             <div className="edit-risk">
               <textarea
+                placeholder="Task description"
                 className="edit-description-input"
                 value={updatedTask.description}
                 onChange={(e) =>
@@ -517,21 +518,21 @@ const Task = ({
                 setEditTask(true);
               }}
             >
-              <PencilFill size={21} color="blue" />
+              <PencilFill size={21} color="#377feb" />
             </div>
             <div className="section" onClick={() => setDeletingTask(task)}>
-              <TrashFill color="red" size={21} />
+              <TrashFill color="#e64e4e" size={21} />
             </div>
           </div>
         )
       ) : (
         <div className="task-risk-status">
           <span>{task.riskValue}</span>
-          {completed ? (
+          {/*{completed ? (
             <FaCheck color="green" size={23} />
-          ) : (
-            <HiThumbDown color="red" size={30} />
-          )}
+          ) : (*/}
+          <HiThumbDown color="#e64e4e" size={30} />
+          {/*})}*/}
         </div>
       )}
       {/* {adding && (
@@ -606,7 +607,7 @@ const Task = ({
             width: "50px",
           }}
         >
-          <BsFillPlusCircleFill size={25} />
+          <BsFillPlusCircleFill size={35} />
         </LinkButton>
       )}
     </div>

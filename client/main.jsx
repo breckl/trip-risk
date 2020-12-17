@@ -16,17 +16,12 @@ Meteor.startup(() => {
     description: "Trip Risk Data",
   });
 
-  // localforage.removeItem("tasks");
-  // localforage.removeItem("aircrafts");
+  //localforage.removeItem("tasks");
+  //localforage.removeItem("aircrafts");
   localforage.getItem("aircrafts").then((resp) => {
     console.log(resp);
     if (!resp) {
       localforage.setItem("aircrafts", [
-        {
-          aircraftId: 2,
-          name: "P-51 Mustang",
-          passingValue: 10,
-        },
         {
           aircraftId: 1,
           name: "Twin Cessna",

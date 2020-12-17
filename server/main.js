@@ -10,11 +10,6 @@ Meteor.startup(() => {
       name: "Twin Cessna",
       passingValue: 10,
     });
-    AircraftsCollection.insert({
-      aircraftId: 2,
-      name: "P-51 Mustang",
-      passingValue: 10,
-    });
   }
   if (TasksCollection.find({}).count() === 0) {
     console.log("adding default data");
