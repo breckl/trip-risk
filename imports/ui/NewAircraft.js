@@ -111,28 +111,6 @@ export const NewAircraft = () => {
           >
             <FaChevronLeft size={26} color="#377feb" />
           </div>
-          {/* {!editAircraftName && (
-            <span
-              onClick={() => {
-                setEditAircraftName(true);
-                console.log(
-                  "🚀 ~ file: NewAircraft.js ~ line 170 ~ NewAircraft ~ aircraftNameInput.current.focus()",
-                  aircraftNameInput.current.focus
-                );
-                aircraftNameInput.current.focus();
-              }}
-            >
-              {aircraft?.name || "Enter Name Here"}
-            </span>
-          )}
-          <input
-            style={!editAircraftName ? { display: "none" } : {}}
-            ref={aircraftNameInput}
-            onBlur={() => setEditAircraftName(false)}
-            placeholder="Enter Name Here"
-            value={aircraft?.name}
-            onChange={(e) => setAircraft({ ...aircraft, name: e.target.value })}
-          /> */}
           {!editAircraftName ? (
             <span
               onClick={() => {
