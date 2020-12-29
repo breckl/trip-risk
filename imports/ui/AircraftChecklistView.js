@@ -159,15 +159,7 @@ export const AircraftChecklistView = () => {
 
   const percent = currentValue / aircraft.passingValue;
   const progressMessage =
-    percent >= 1
-      ? "You did it! Go Go Go!"
-      : percent > 0.9
-      ? "So close!!"
-      : percent > 0.6
-      ? "Getting There!"
-      : percent > 0.4
-      ? "You have a long ways"
-      : "Dont you dare fly yet!";
+    percent >= 1 ? "Sorry, no flying for you today :(" : "You're good so far!";
 
   return loading ? (
     <div>Loading</div>

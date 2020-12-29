@@ -177,18 +177,22 @@ export const NewAircraft = () => {
                   })
                 }
               />
-              <input
-                placeholder="Risk value"
-                type="number"
-                className="form-control edit-risk-input"
-                value={newTasks.riskValue}
-                onChange={(e) =>
-                  setNewTasks({
-                    ...newTasks,
-                    riskValue: e.target.value * 1,
-                  })
-                }
-              ></input>
+              <div>
+                <input
+                  placeholder="Risk value"
+                  type="number"
+                  className="form-control edit-risk-input"
+                  value={newTasks.riskValue}
+                  style={{ width: 80 }}
+                  onChange={(e) =>
+                    setNewTasks({
+                      ...newTasks,
+                      riskValue: e.target.value * 1,
+                    })
+                  }
+                ></input>
+                <div style={{ marginTop: 3 }}>Use 1-10</div>
+              </div>
             </div>
             <div className="edit-description-actions">
               <PrimaryButton
