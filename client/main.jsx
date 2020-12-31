@@ -6,9 +6,11 @@ import { App } from "/imports/ui/App";
 import localforage from "localforage";
 import { tasks } from "./InitialData";
 
+import "../imports/startup/client/";
+
 Meteor.startup(() => {
   localforage.config({
-    driver: localforage.WEBSQL, // Force WebSQL; same as using setDriver()
+    driver: localforage.INDEXEDDB, // Force WebSQL; same as using setDriver()
     name: "tripRisk",
     version: 1.0,
     size: 4980736, // Size of database, in bytes. WebSQL-only for now.

@@ -159,7 +159,7 @@ export const AircraftChecklistView = () => {
 
   const percent = currentValue / aircraft.passingValue;
   const progressMessage =
-    percent >= 1 ? "Sorry, no flying for you today :(" : "You're good so far!";
+    percent <= 1 ? "Sorry, no flying for you today :(" : "You're good so far!";
 
   return loading ? (
     <div>Loading</div>
@@ -499,7 +499,7 @@ const Task = ({
           {/*{completed ? (
             <FaCheck color="green" size={23} />
           ) : (*/}
-          <HiThumbDown color="#e64e4e" size={30} />
+          <HiThumbDown color={completed ? "#ababab" : "#e64e4e"} size={30} />
           {/*})}*/}
         </div>
       )}
