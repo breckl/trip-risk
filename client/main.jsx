@@ -21,7 +21,7 @@ Meteor.startup(() => {
   //localforage.removeItem("tasks");
   //localforage.removeItem("aircrafts");
   localforage.getItem("aircrafts").then((resp) => {
-    if (!resp) {
+    if (!resp || resp.length == 0) {
       localforage.setItem("aircrafts", [
         {
           aircraftId: 1,
@@ -33,7 +33,7 @@ Meteor.startup(() => {
     }
   });
   localforage.getItem("tasks").then((resp) => {
-    if (!resp) {
+    if (!resp || resp.length == 0) {
       localforage.setItem("tasks", tasks);
     }
   });
