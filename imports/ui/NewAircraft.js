@@ -144,9 +144,6 @@ export const NewAircraft = () => {
           )}
           <div style={{ width: "80px" }} />
         </div>
-        <div className="section-header">
-          Pilot Qualifications and Experience
-        </div>
       </div>
       <div>
         <div className="tasks-container">
@@ -165,9 +162,40 @@ export const NewAircraft = () => {
             </Droppable>
           </DragDropContext>
           <div className="task-item">
+            <div
+              style={{
+                fontSize: "15px",
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+                color: "rgb(117, 117, 117)",
+                marginTop: "10px",
+              }}
+              onClick={() => {
+                if (newTasks.itemType == "section") {
+                  setNewTasks({ ...newTasks, itemType: "task" });
+                } else {
+                  setNewTasks({ ...newTasks, itemType: "section" });
+                }
+              }}
+            >
+              <input
+                style={{ marginRight: "5px", cursor: "pointer" }}
+                type="checkbox"
+                id="section-header"
+                name="Is a new Section"
+                value="Is a new Section"
+                checked={newTasks.itemType == "section"}
+              ></input>
+              Create a New Section Header
+            </div>
             <div className="edit-risk">
               <textarea
-                placeholder="Task description"
+                placeholder={
+                  newTasks.itemType == "section"
+                    ? "Section Name"
+                    : "Task description"
+                }
                 className="edit-description-input"
                 value={newTasks.description}
                 onChange={(e) =>
@@ -177,22 +205,24 @@ export const NewAircraft = () => {
                   })
                 }
               />
-              <div>
-                <input
-                  placeholder="Risk value"
-                  type="number"
-                  className="form-control edit-risk-input"
-                  value={newTasks.riskValue}
-                  style={{ width: 80 }}
-                  onChange={(e) =>
-                    setNewTasks({
-                      ...newTasks,
-                      riskValue: e.target.value * 1,
-                    })
-                  }
-                ></input>
-                <div style={{ marginTop: 3 }}>Use 1-10</div>
-              </div>
+              {newTasks.itemType !== "section" && (
+                <div>
+                  <input
+                    placeholder="Risk value"
+                    type="number"
+                    className="form-control edit-risk-input"
+                    value={newTasks.riskValue}
+                    style={{ width: 80 }}
+                    onChange={(e) =>
+                      setNewTasks({
+                        ...newTasks,
+                        riskValue: e.target.value * 1,
+                      })
+                    }
+                  ></input>
+                  <div style={{ marginTop: 3 }}>Use 1-10</div>
+                </div>
+              )}
             </div>
             <div className="edit-description-actions">
               <PrimaryButton
@@ -206,7 +236,8 @@ export const NewAircraft = () => {
                   setNewTasks({ description: "", riskValue: "" });
                 }}
               >
-                Add Task
+                Add{" "}
+                {newTasks.itemType !== "section" ? "Task" : "Section Header"}
               </PrimaryButton>
             </div>
           </div>
@@ -234,7 +265,7 @@ export const NewAircraft = () => {
                           ...i,
                           aircraftId: newAircraftId + 1,
                           id: nextId + index,
-                          itemType: "task",
+                          itemType: i.itemType ? i.itemType : "task",
                         };
                       });
                       localforage
@@ -313,17 +344,19 @@ const Task = ({ task, updateTask, setDeletingTask }) => {
                   })
                 }
               />
-              <input
-                type="number"
-                className="form-control edit-risk-input"
-                value={updatedTask.riskValue}
-                onChange={(e) =>
-                  setUpdatedTask({
-                    ...updatedTask,
-                    riskValue: e.target.value * 1,
-                  })
-                }
-              ></input>
+              {task.itemType !== "section" && (
+                <input
+                  type="number"
+                  className="form-control edit-risk-input"
+                  value={updatedTask.riskValue}
+                  onChange={(e) =>
+                    setUpdatedTask({
+                      ...updatedTask,
+                      riskValue: e.target.value * 1,
+                    })
+                  }
+                ></input>
+              )}
             </div>
             <div className="edit-description-actions">
               <PrimaryButton

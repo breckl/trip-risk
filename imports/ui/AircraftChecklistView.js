@@ -122,6 +122,9 @@ export const AircraftChecklistView = () => {
           addNewTask={(newTask, order) => addNewTask(newTask, order)}
         />
       );
+      const sectionHeader = (
+        <div className="section-header">{item.description}</div>
+      );
       return editAircraft ? (
         <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
           {(provided, snapshot) => (
@@ -139,6 +142,8 @@ export const AircraftChecklistView = () => {
             </div>
           )}
         </Draggable>
+      ) : item.itemType == "section" ? (
+        sectionHeader
       ) : (
         task
       );
@@ -157,16 +162,22 @@ export const AircraftChecklistView = () => {
     setTasks(movedTasks);
   };
 
-  const percent = currentValue / aircraft.passingValue;
   const progressMessage =
-    percent <= 1 ? "Sorry, no flying for you today :(" : "You're good so far!";
+    currentValue < aircraft.cautionValue
+      ? "No Go"
+      : currentValue < aircraft.passingValue
+      ? "Caution"
+      : "You're good to go.";
 
   return loading ? (
     <div>Loading</div>
   ) : (
     <div id="task-view">
       <div className="header-container">
-        <div className="aircraft-header">
+        <div
+          className="aircraft-header"
+          style={editAircraft ? { padding: 0 } : {}}
+        >
           {!editAircraft ? (
             <div
               className="section"
@@ -176,12 +187,24 @@ export const AircraftChecklistView = () => {
               <FaChevronLeft size={26} color="#377feb" />
             </div>
           ) : (
-            <div
-              className="section"
-              style={{ width: "80px", padding: "0px" }}
-            ></div>
+            // <div
+            //   className="section"
+            //   style={{ width: "80px", padding: "0px" }}
+            // ></div>
+            <div></div>
           )}
           {aircraft?.name}
+          {/* {!editAircraft ? (
+            aircraft?.name
+          ) : (
+            <input
+              value={aircraft.name}
+              onChange={(e) =>
+                setAircraft({ ...aircraft, name: e.target.value })
+              }
+              style={{ fontSize: 21, padding: 5 }}
+            />
+          )} */}
           {!editAircraft ? (
             <div className="aircraft-edit-actions">
               <div
@@ -197,12 +220,79 @@ export const AircraftChecklistView = () => {
               </div>
             </div>
           ) : (
-            <div style={{ width: "80px" }} />
+            <>
+              <div
+                style={{
+                  width: "80px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <span style={{ fontSize: "15px" }}>Go / No Go</span>
+                <span style={{ fontSize: "15px" }}>Value</span>
+                <input
+                  type="number"
+                  placeholder={aircraft.passingValue}
+                  className="edit-passing-value-input"
+                  onChange={(e) => {
+                    e.persist();
+                    localforage.getItem("aircrafts").then((resp) => {
+                      const newData = resp.map((a) => {
+                        if (a.aircraftId == aircraft.aircraftId) {
+                          setAircraft({
+                            ...a,
+                            passingValue: e.target.value * 1,
+                          });
+                          return { ...a, passingValue: e.target.value * 1 };
+                        } else {
+                          return a;
+                        }
+                      });
+                      localforage.setItem("aircrafts", newData);
+                    });
+                  }}
+                ></input>
+              </div>
+              <div
+                style={{
+                  width: "80px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <span style={{ fontSize: "15px" }}>Caution</span>
+                <span style={{ fontSize: "15px" }}>Value</span>
+                <input
+                  type="number"
+                  placeholder={aircraft.cautionValue}
+                  className="edit-passing-value-input"
+                  onChange={(e) => {
+                    e.persist();
+                    localforage.getItem("aircrafts").then((resp) => {
+                      const newData = resp.map((a) => {
+                        if (a.aircraftId == aircraft.aircraftId) {
+                          setAircraft({
+                            ...a,
+                            cautionValue: e.target.value * 1,
+                          });
+                          return { ...a, cautionValue: e.target.value * 1 };
+                        } else {
+                          return a;
+                        }
+                      });
+                      localforage.setItem("aircrafts", newData);
+                    });
+                  }}
+                ></input>
+              </div>
+            </>
           )}
         </div>
-        <div className="section-header">
+        {/* <div className="section-header">
           Pilot Qualifications and Experience
-        </div>
+        </div> */}
       </div>
       <div className="tasks-container">
         <DragDropContext onDragEnd={(e) => onDragEnd(e)}>
@@ -322,9 +412,40 @@ export const AircraftChecklistView = () => {
             <Modal.Header>Add a new task</Modal.Header>
             <Modal.Body>
               <div className="modal-add-section">
+                <div
+                  style={{
+                    fontSize: "13px",
+                    display: "flex",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    color: "rgb(117, 117, 117)",
+                    marginTop: "10px",
+                  }}
+                  onClick={() => {
+                    if (addingTask.itemType == "section") {
+                      setAddingTask({ ...addingTask, itemType: "task" });
+                    } else {
+                      setAddingTask({ ...addingTask, itemType: "section" });
+                    }
+                  }}
+                >
+                  <input
+                    style={{ marginRight: "5px", cursor: "pointer" }}
+                    type="checkbox"
+                    id="section-header"
+                    name="Is a new Section"
+                    value="Is a new Section"
+                    checked={addingTask.itemType == "section"}
+                  ></input>
+                  Create a New Section Header
+                </div>
                 <div className="modal-description">
                   <textarea
-                    placeholder="Task description"
+                    placeholder={
+                      addingTask.itemType == "section"
+                        ? "Section Name"
+                        : "Task description"
+                    }
                     onChange={(e) =>
                       setAddingTask({
                         ...addingTask,
@@ -333,24 +454,26 @@ export const AircraftChecklistView = () => {
                     }
                   />
                 </div>
-                <div className="modal-risk">
-                  <input
-                    placeholder="Risk value"
-                    style={{
-                      width: "25px",
-                      height: "25px",
-                      fontSize: "19px",
-                      paddingLeft: "15px",
-                    }}
-                    onChange={(e) =>
-                      setAddingTask({
-                        ...addingTask,
-                        riskValue: e.target.value,
-                      })
-                    }
-                    type="number"
-                  />
-                </div>
+                {addingTask.itemType !== "section" && (
+                  <div className="modal-risk">
+                    <input
+                      placeholder="Risk value"
+                      style={{
+                        width: "25px",
+                        height: "25px",
+                        fontSize: "19px",
+                        paddingLeft: "15px",
+                      }}
+                      onChange={(e) =>
+                        setAddingTask({
+                          ...addingTask,
+                          riskValue: e.target.value,
+                        })
+                      }
+                      type="number"
+                    />
+                  </div>
+                )}
               </div>
             </Modal.Body>
             <Modal.Footer>
@@ -402,6 +525,7 @@ const Task = ({
         minHeight: editing ? "85px" : "65px",
         color: completed ? "#7d7d7d" : "unset",
         cursor: "pointer",
+        fontWeight: task.itemType == "section" ? "bold" : "unset",
       }}
       onClick={() => {
         if (editing) return;
@@ -427,17 +551,19 @@ const Task = ({
                   })
                 }
               />
-              <input
-                type="number"
-                className="form-control edit-risk-input"
-                value={updatedTask.riskValue}
-                onChange={(e) =>
-                  setUpdatedTask({
-                    ...updatedTask,
-                    riskValue: e.target.value * 1,
-                  })
-                }
-              ></input>
+              {task.itemType !== "section" && (
+                <input
+                  type="number"
+                  className="form-control edit-risk-input"
+                  value={updatedTask.riskValue}
+                  onChange={(e) =>
+                    setUpdatedTask({
+                      ...updatedTask,
+                      riskValue: e.target.value * 1,
+                    })
+                  }
+                ></input>
+              )}
             </div>
             <div className="edit-description-actions">
               <PrimaryButton
@@ -499,7 +625,7 @@ const Task = ({
           {/*{completed ? (
             <FaCheck color="green" size={23} />
           ) : (*/}
-          <HiThumbDown color={completed ? "#ababab" : "#e64e4e"} size={30} />
+          {/* <HiThumbDown color={completed ? "#ababab" : "#e64e4e"} size={30} /> */}
           {/*})}*/}
         </div>
       )}

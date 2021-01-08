@@ -21,28 +21,26 @@ Meteor.startup(() => {
   //localforage.removeItem("tasks");
   //localforage.removeItem("aircrafts");
   localforage.getItem("aircrafts").then((resp) => {
-    console.log(resp);
     if (!resp) {
       localforage.setItem("aircrafts", [
         {
           aircraftId: 1,
           name: "Twin Cessna",
           passingValue: 10,
+          cautionValue: 6,
         },
       ]);
     }
   });
-  console.log("start up");
   localforage.getItem("tasks").then((resp) => {
-    console.log(resp);
     if (!resp) {
       localforage.setItem("tasks", tasks);
     }
-    render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>,
-      document.getElementById("react-target")
-    );
   });
+  render(
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>,
+    document.getElementById("react-target")
+  );
 });
