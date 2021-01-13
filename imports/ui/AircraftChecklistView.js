@@ -1,15 +1,14 @@
 import React from "react";
-// import { useTracker } from "meteor/react-meteor-data";
 import { SecondaryButton, LinkButton, PrimaryButton } from "./common/Button";
-import { PencilFill, TrashFill } from "react-bootstrap-icons";
 import { useHistory, useParams } from "react-router-dom";
-// import { TasksCollection } from "/imports/api/tasks";
-// import { AircraftsCollection } from "/imports/api/aircrafts";
 import Modal from "react-bootstrap/modal";
-import { HiRefresh, HiThumbDown, HiThumbUp } from "react-icons/hi";
-import { FaCheck, FaChevronLeft } from "react-icons/fa";
+import { FaChevronLeft } from "react-icons/fa";
 import { MdMenu } from "react-icons/md";
-import { BsFillPlusCircleFill } from "react-icons/bs";
+import {
+  BsFillPlusCircleFill,
+  BsFillTrashFill,
+  BsPencil,
+} from "react-icons/bs";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import localforage from "localforage";
 
@@ -37,7 +36,7 @@ const getListStyle = (isDraggingOver) => ({
   // background: isDraggingOver ? "lightblue" : "lightgrey",
 });
 
-export const AircraftChecklistView = () => {
+export default AircraftChecklistView = () => {
   let history = useHistory();
   let { id: aircraftId } = useParams();
   const [editAircraft, setEditAircraft] = React.useState(false);
@@ -213,10 +212,10 @@ export const AircraftChecklistView = () => {
                   return setEditAircraft(!editAircraft);
                 }}
               >
-                <PencilFill size={23} color="#377feb" />
+                <BsPencil size={23} color="#377feb" />
               </div>
               <div className="section" onClick={() => setDeleteAircraft(true)}>
-                <TrashFill color="#e64e4e" size={23} />
+                <BsFillTrashFill color="#e64e4e" size={23} />
               </div>
             </div>
           ) : (
@@ -612,10 +611,10 @@ const Task = ({
                 setEditTask(true);
               }}
             >
-              <PencilFill size={21} color="#377feb" />
+              <BsPencil size={21} color="#377feb" />
             </div>
             <div className="section" onClick={() => setDeletingTask(task)}>
-              <TrashFill color="#e64e4e" size={21} />
+              <BsFillTrashFill color="#e64e4e" size={21} />
             </div>
           </div>
         )

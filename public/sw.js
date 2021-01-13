@@ -1,16 +1,21 @@
 /* eslint-disable */
 const HTMLToCache = "/";
-const version = "1.0.0";
+const version = "1.1.2";
 
 self.addEventListener("install", function (event) {
   event.waitUntil(
     caches.open(version).then((cache) => {
       return cache.addAll([
-        "/public/img",
-        "/imports/ui",
+        "/imports/ui/AircraftChecklistView.js",
+        "/imports/ui/AircraftListView.js",
+        "/imports/ui/App.jsx",
+        "/imports/ui/Header.jsx",
+        "/imports/ui/NewAircraft.jsx",
+        "/imports/ui/common/Button.jsx",
         "/client/main.jsx",
         "/client/main.css",
         "/client/main.html",
+        "/client/main.less",
         "/",
       ]);
     })
@@ -62,6 +67,7 @@ self.addEventListener("fetch", (event) => {
             clonedResponse.type !== "basic" ||
             /\/sockjs\//.test(event.request.url)
           ) {
+            console.log({ clonedResponse });
             return response;
           }
           if (/html/.test(contentType)) {
@@ -125,3 +131,60 @@ function hasSameHash(firstUrl, secondUrl) {
 
 // Service worker created by Ilan Schemoul alias NitroBAY as a specific Service Worker for Meteor
 // Please see https://github.com/NitroBAY/meteor-service-worker for the official project source
+
+// const cacheName = "v1";
+// const cacheFiles = [
+//   "/imports/ui/AircraftChecklistView.js",
+//   "/imports/ui/AircraftListView.js",
+//   "/imports/ui/App.jsx",
+//   "/imports/ui/Header.jsx",
+//   "/imports/ui/NewAircraft.jsx",
+//   "/imports/ui/common/Button.jsx",
+//   "/client/main.jsx",
+//   "/client/main.css",
+//   "/client/main.html",
+//   "/client/main.less",
+//   "/",
+// ];
+
+// // Install event
+// self.addEventListener("install", function (event) {
+//   console.log("=============SW installed");
+//   event.waitUntil(
+//     caches.open(cacheName).then(function (cache) {
+//       console.log("=============SW caching cachefiles");
+//       return cache.addAll(cacheFiles);
+//     })
+//   );
+// });
+
+// // Activate event
+// self.addEventListener("activate", function (event) {
+//   console.log("=============SW activated");
+//   event.waitUntil(
+//     caches.keys().then(function (cacheNames) {
+//       return Promise.all(
+//         cacheNames.map(function (thisCacheName) {
+//           if (thisCacheName !== cacheName) {
+//             console.log(
+//               "=============SW Removing cached files from",
+//               thisCacheName
+//             );
+//             return caches.delete(thisCacheName);
+//           }
+//         })
+//       );
+//     })
+//   );
+// });
+
+// // Fetch event
+// // self.addEventListener("fetch", function (event) {
+// //   console.log("=============SW fetching", event.request.url);
+// //   event.respondWith(
+// //     caches.match(event.request).then(function (response) {
+// //       console.log("=============Fetching new files");
+// //       return response || fetch(event.request);
+// //     })
+// //   );
+// // });

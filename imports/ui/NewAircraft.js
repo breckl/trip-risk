@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
 import { SecondaryButton, PrimaryButton } from "./common/Button";
-import { PencilFill, TrashFill } from "react-bootstrap-icons";
 import { useHistory, useParams } from "react-router-dom";
 import Modal from "react-bootstrap/modal";
 import { MdMenu } from "react-icons/md";
-import { FaCheck, FaChevronLeft } from "react-icons/fa";
+import { BsFillTrashFill, BsPencil } from "react-icons/bs";
+import { FaChevronLeft } from "react-icons/fa";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import localforage from "localforage";
 
@@ -32,7 +32,7 @@ const getListStyle = (isDraggingOver) => ({
   // background: isDraggingOver ? "lightblue" : "lightgrey",
 });
 
-export const NewAircraft = () => {
+export default NewAircraft = () => {
   let history = useHistory();
   let { id: aircraftId } = useParams();
   const [tasks, setTasks] = React.useState([]);
@@ -126,7 +126,7 @@ export const NewAircraft = () => {
                 }}
                 style={{ marginLeft: 10 }}
               >
-                <PencilFill size={21} color="#377feb" />
+                <BsPencil size={21} color="#377feb" />
               </span>
             </span>
           ) : (
@@ -390,10 +390,10 @@ const Task = ({ task, updateTask, setDeletingTask }) => {
               setEditTask(true);
             }}
           >
-            <PencilFill size={21} color="#377feb" />
+            <BsPencil size={21} color="#377feb" />
           </div>
           <div className="section" onClick={() => setDeletingTask(task)}>
-            <TrashFill color="#e64e4e" size={21} />
+            <BsFillTrashFill color="#e64e4e" size={21} />
           </div>
         </div>
       )}

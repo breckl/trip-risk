@@ -2,8 +2,9 @@ import React from "react";
 import { SecondaryButton, PrimaryButton } from "./common/Button";
 import { useHistory } from "react-router-dom";
 import localforage from "localforage";
+import { tasks } from "/client/InitialData";
 
-export const AircraftListView = () => {
+export default AircraftListView = () => {
   let history = useHistory();
   const [aircrafts, setAircrafts] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
@@ -17,6 +18,28 @@ export const AircraftListView = () => {
       setLoading(false);
     });
   }, []);
+
+  const loadSampleData = () => {
+    localforage.getItem("aircrafts").then((resp) => {
+      localforage
+        .setItem("aircrafts", [
+          {
+            aircraftId: 1,
+            name: "Twin Cessna",
+            passingValue: 10,
+            cautionValue: 6,
+          },
+        ])
+        .then(() => {
+          localforage.getItem("tasks").then((resp) => {
+            if (!resp || resp.length == 0) {
+              localforage.setItem("tasks", tasks);
+            }
+          });
+          history.go();
+        });
+    });
+  };
   return loading ? (
     <div>loading</div>
   ) : (
@@ -39,6 +62,14 @@ export const AircraftListView = () => {
           </SecondaryButton>
         );
       })}
+      {aircrafts.length == 0 && !loading && (
+        <SecondaryButton
+          style={{ width: "80%", marginBottom: "15px", height: "45px" }}
+          onClick={() => loadSampleData()}
+        >
+          Load Sample Data
+        </SecondaryButton>
+      )}
       <PrimaryButton
         onClick={() => history.push(`/new-aircraft`)}
         style={{ width: "80%", height: "45px" }}

@@ -6,7 +6,7 @@ import { App } from "/imports/ui/App";
 import localforage from "localforage";
 import { tasks } from "./InitialData";
 
-import "../imports/startup/client/";
+// import "../imports/startup/client/";
 
 Meteor.startup(() => {
   localforage.config({
@@ -18,8 +18,8 @@ Meteor.startup(() => {
     description: "Trip Risk Data",
   });
 
-  //localforage.removeItem("tasks");
-  //localforage.removeItem("aircrafts");
+  // //localforage.removeItem("tasks");
+  // //localforage.removeItem("aircrafts");
   localforage.getItem("aircrafts").then((resp) => {
     if (!resp || resp.length == 0) {
       localforage.setItem("aircrafts", [

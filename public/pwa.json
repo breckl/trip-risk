@@ -1,7 +1,7 @@
 {
     "name": "Trip Risk",
     "short_name": "Trip Risk",
-    "start_url": "http://142.93.72.93/",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#fff",
     "theme_color": "#fff",
