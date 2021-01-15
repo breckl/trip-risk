@@ -8,9 +8,13 @@ export const SecondaryButton = ({ children, ...props }) => {
   );
 };
 
-export const PrimaryButton = ({ children, ...props }) => {
+export const PrimaryButton = ({ children, disabled = false, ...props }) => {
   return (
-    <button className="button primary-button" {...props}>
+    <button
+      disabled={disabled}
+      className={`button ${disabled ? "button-disabled" : "primary-button"}`}
+      {...props}
+    >
       {children}
     </button>
   );

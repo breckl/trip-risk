@@ -8,6 +8,15 @@ import { FaChevronLeft } from "react-icons/fa";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import localforage from "localforage";
 
+function isNumberKey(evt) {
+  console.log("🚀 ~ file: NewAircraft.js ~ line 12 ~ isNumberKey ~ evt", evt);
+  var charCode = evt.which ? evt.which : event.keyCode;
+  if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+    return false;
+
+  return true;
+}
+
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -40,6 +49,8 @@ export default NewAircraft = () => {
   const [aircraft, setAircraft] = React.useState({});
   const [editAircraftName, setEditAircraftName] = React.useState(false);
   const [deletingTask, setDeletingTask] = React.useState({});
+  const [goValue, setGoValue] = React.useState();
+  const [cautionValue, setCautionValue] = React.useState();
   const fetchData = (data) => {
     setTasks(data.filter((i) => i.aircraftId == aircraftId));
   };
@@ -113,6 +124,7 @@ export default NewAircraft = () => {
           </div>
           {!editAircraftName ? (
             <span
+              className="aircraft-name"
               onClick={() => {
                 setEditAircraftName(true);
               }}
@@ -142,7 +154,55 @@ export default NewAircraft = () => {
               style={{ fontSize: 21, padding: 5 }}
             />
           )}
-          <div style={{ width: "80px" }} />
+          <div className="spacer" />
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "10px",
+        }}
+      >
+        <div
+          style={{
+            width: "140px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <span style={{ fontSize: "15px" }}>Go / No Go Value</span>
+          <input
+            type="number"
+            value={goValue || ""}
+            className="edit-passing-value-input"
+            style={{ width: "70px" }}
+            onChange={(e) => {
+              e.persist();
+              setGoValue(e.target.value);
+            }}
+          ></input>
+        </div>
+        <div
+          style={{
+            width: "140px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <span style={{ fontSize: "15px" }}>Caution Value</span>
+          <input
+            type="number"
+            value={cautionValue || ""}
+            className="edit-passing-value-input"
+            style={{ width: "70px" }}
+            onChange={(e) => {
+              e.persist();
+              setCautionValue(e.target.value);
+            }}
+          ></input>
         </div>
       </div>
       <div>
@@ -196,14 +256,15 @@ export default NewAircraft = () => {
                     ? "Section Name"
                     : "Task description"
                 }
+                style={{ fontSize: "15px" }}
                 className="edit-description-input"
                 value={newTasks.description}
-                onChange={(e) =>
+                onChange={(e) => {
                   setNewTasks({
                     ...newTasks,
                     description: e.target.value,
-                  })
-                }
+                  });
+                }}
               />
               {newTasks.itemType !== "section" && (
                 <div>
@@ -212,13 +273,13 @@ export default NewAircraft = () => {
                     type="number"
                     className="form-control edit-risk-input"
                     value={newTasks.riskValue}
-                    style={{ width: 80 }}
-                    onChange={(e) =>
+                    style={{ width: 80, fontSize: "15px" }}
+                    onChange={(e) => {
                       setNewTasks({
                         ...newTasks,
                         riskValue: e.target.value * 1,
-                      })
-                    }
+                      });
+                    }}
                   ></input>
                   <div style={{ marginTop: 3 }}>Use 1-10</div>
                 </div>
@@ -226,6 +287,11 @@ export default NewAircraft = () => {
             </div>
             <div className="edit-description-actions">
               <PrimaryButton
+                disabled={
+                  newTasks.itemType !== "section"
+                    ? !newTasks.description || !newTasks.riskValue
+                    : !newTasks.description
+                }
                 onClick={(e) => {
                   e.preventDefault();
                   tasks.push({
@@ -246,6 +312,7 @@ export default NewAircraft = () => {
       <div className="assessment-container" style={{ boxShadow: "none" }}>
         <div className="done-editing">
           <PrimaryButton
+            disabled={!tasks || !aircraft.name || !cautionValue || !goValue}
             onClick={() => {
               var newAircraftId;
               localforage.getItem("aircrafts").then((resp) => {
@@ -254,7 +321,12 @@ export default NewAircraft = () => {
                 localforage
                   .setItem("aircrafts", [
                     ...resp,
-                    { ...aircraft, aircraftId: newAircraftId + 1 },
+                    {
+                      ...aircraft,
+                      aircraftId: newAircraftId + 1,
+                      passingValue: goValue,
+                      cautionValue: cautionValue,
+                    },
                   ])
                   .then(() => {
                     localforage.getItem("tasks").then((resp) => {
@@ -337,6 +409,7 @@ const Task = ({ task, updateTask, setDeletingTask }) => {
               <textarea
                 className="edit-description-input"
                 value={updatedTask.description}
+                style={{ fontSize: "15px" }}
                 onChange={(e) =>
                   setUpdatedTask({
                     ...updatedTask,
@@ -347,14 +420,15 @@ const Task = ({ task, updateTask, setDeletingTask }) => {
               {task.itemType !== "section" && (
                 <input
                   type="number"
+                  style={{ fontSize: "15px" }}
                   className="form-control edit-risk-input"
                   value={updatedTask.riskValue}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setUpdatedTask({
                       ...updatedTask,
                       riskValue: e.target.value * 1,
-                    })
-                  }
+                    });
+                  }}
                 ></input>
               )}
             </div>

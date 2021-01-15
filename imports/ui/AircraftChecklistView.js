@@ -186,29 +186,37 @@ export default AircraftChecklistView = () => {
               <FaChevronLeft size={26} color="#377feb" />
             </div>
           ) : (
-            // <div
-            //   className="section"
-            //   style={{ width: "80px", padding: "0px" }}
-            // ></div>
             <div></div>
           )}
-          {aircraft?.name}
-          {/* {!editAircraft ? (
+          {!editAircraft ? (
             aircraft?.name
           ) : (
-            <input
-              value={aircraft.name}
-              onChange={(e) =>
-                setAircraft({ ...aircraft, name: e.target.value })
-              }
-              style={{ fontSize: 21, padding: 5 }}
-            />
-          )} */}
+            <div
+              style={{
+                display: "flex",
+                maxWidth: "40%",
+                flexDirection: "column",
+              }}
+            >
+              <span style={{ fontSize: "15px", marginTop: "18px" }}>
+                Airfraft Name
+              </span>
+              <input
+                value={aircraft.name}
+                className="edit-passing-value-input"
+                onChange={(e) =>
+                  setAircraft({ ...aircraft, name: e.target.value })
+                }
+                style={{ width: "90%" }}
+              />
+            </div>
+          )}
           {!editAircraft ? (
             <div className="aircraft-edit-actions">
               <div
                 className="section"
                 onClick={() => {
+                  setCurrentValue(0);
                   return setEditAircraft(!editAircraft);
                 }}
               >
@@ -289,9 +297,6 @@ export default AircraftChecklistView = () => {
             </>
           )}
         </div>
-        {/* <div className="section-header">
-          Pilot Qualifications and Experience
-        </div> */}
       </div>
       <div className="tasks-container">
         <DragDropContext onDragEnd={(e) => onDragEnd(e)}>
@@ -445,6 +450,7 @@ export default AircraftChecklistView = () => {
                         ? "Section Name"
                         : "Task description"
                     }
+                    style={{ fontSize: "15px" }}
                     onChange={(e) =>
                       setAddingTask({
                         ...addingTask,
@@ -456,12 +462,13 @@ export default AircraftChecklistView = () => {
                 {addingTask.itemType !== "section" && (
                   <div className="modal-risk">
                     <input
-                      placeholder="Risk value"
                       style={{
                         width: "25px",
                         height: "25px",
                         fontSize: "19px",
                         paddingLeft: "15px",
+                        marginRight: "10px",
+                        marginLeft: 0,
                       }}
                       onChange={(e) =>
                         setAddingTask({
@@ -471,12 +478,18 @@ export default AircraftChecklistView = () => {
                       }
                       type="number"
                     />
+                    Risk Value
                   </div>
                 )}
               </div>
             </Modal.Body>
             <Modal.Footer>
               <PrimaryButton
+                disabled={
+                  addingTask.itemType !== "section"
+                    ? !addingTask.description || !addingTask.riskValue
+                    : !addingTask.description
+                }
                 onClick={(e) => {
                   e.preventDefault();
                   addNewTask(addingTask, addingTask.order - 1);
@@ -540,6 +553,7 @@ const Task = ({
           <>
             <div className="edit-risk">
               <textarea
+                style={{ fontSize: "15px" }}
                 placeholder="Task description"
                 className="edit-description-input"
                 value={updatedTask.description}
@@ -553,6 +567,7 @@ const Task = ({
               {task.itemType !== "section" && (
                 <input
                   type="number"
+                  style={{ fontSize: "15px" }}
                   className="form-control edit-risk-input"
                   value={updatedTask.riskValue}
                   onChange={(e) =>
@@ -566,6 +581,11 @@ const Task = ({
             </div>
             <div className="edit-description-actions">
               <PrimaryButton
+                disabled={
+                  updatedTask.itemType !== "section"
+                    ? !updatedTask.description || !updatedTask.riskValue
+                    : !updatedTask.description
+                }
                 onClick={(e) => {
                   e.preventDefault();
                   localforage.getItem("tasks").then((resp) => {
@@ -646,7 +666,7 @@ const Task = ({
             width: "50px",
           }}
         >
-          <BsFillPlusCircleFill size={35} />
+          <BsFillPlusCircleFill className="plus-icon" />
         </LinkButton>
       )}
     </div>

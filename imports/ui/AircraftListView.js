@@ -3,6 +3,7 @@ import { SecondaryButton, PrimaryButton } from "./common/Button";
 import { useHistory } from "react-router-dom";
 import localforage from "localforage";
 import { tasks } from "/client/InitialData";
+import { BsPlusCircle, BsPlusCircleFill } from "react-icons/bs";
 
 export default AircraftListView = () => {
   let history = useHistory();
@@ -74,7 +75,7 @@ export default AircraftListView = () => {
         onClick={() => history.push(`/new-aircraft`)}
         style={{ width: "80%", height: "45px" }}
       >
-        + New Aircraft
+        <BsPlusCircle style={{ marginRight: "5px" }} /> New Aircraft
       </PrimaryButton>
     </div>
   );

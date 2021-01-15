@@ -61,6 +61,12 @@ textarea {
   background-color: #1e5ab3;
 }
 
+.button-disabled {
+  cursor: not-allowed;
+  background-color: #b2b5ba;
+  color: white;
+}
+
 .secondary-button {
   /* border: none; */
 }
