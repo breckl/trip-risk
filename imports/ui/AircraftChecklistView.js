@@ -2,7 +2,7 @@ import React from "react";
 import { SecondaryButton, LinkButton, PrimaryButton } from "./common/Button";
 import { useHistory, useParams } from "react-router-dom";
 import Modal from "react-bootstrap/modal";
-import { FaChevronLeft } from "react-icons/fa";
+import { FaChevronLeft, FaThumbsUp } from "react-icons/fa";
 import { MdMenu } from "react-icons/md";
 import {
   BsFillPlusCircleFill,
@@ -160,13 +160,29 @@ export default AircraftChecklistView = () => {
     });
     setTasks(movedTasks);
   };
+  const riskValues = tasks.length
+    ? tasks.reduce((a, b) => ({
+        riskValue: a.riskValue + b.riskValue,
+      })).riskValue
+    : 0;
 
+  const riskValueCalc = riskValues - currentValue;
   const progressMessage =
-    currentValue < aircraft.cautionValue
-      ? "No Go"
-      : currentValue < aircraft.passingValue
-      ? "Caution"
-      : "You're good to go.";
+    riskValueCalc > aircraft.cautionValue ? (
+      <span>No Go</span>
+    ) : riskValueCalc > aircraft.passingValue ? (
+      <span>Caution</span>
+    ) : (
+      <span>You're good to go.</span>
+    );
+  // const progressMessage =
+  //   riskValueCalc < aircraft.cautionValue ? (
+  //     <span>No Go</span>
+  //   ) : currentValue < aircraft.passingValue ? (
+  //     <span>Caution</span>
+  //   ) : (
+  //     <span>You're good to go.</span>
+  //   );
 
   return loading ? (
     <div>Loading</div>
@@ -227,74 +243,85 @@ export default AircraftChecklistView = () => {
               </div>
             </div>
           ) : (
-            <>
-              <div
-                style={{
-                  width: "80px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <span style={{ fontSize: "15px" }}>Go / No Go</span>
-                <span style={{ fontSize: "15px" }}>Value</span>
-                <input
-                  type="number"
-                  placeholder={aircraft.passingValue}
-                  className="edit-passing-value-input"
-                  onChange={(e) => {
-                    e.persist();
-                    localforage.getItem("aircrafts").then((resp) => {
-                      const newData = resp.map((a) => {
-                        if (a.aircraftId == aircraft.aircraftId) {
-                          setAircraft({
-                            ...a,
-                            passingValue: e.target.value * 1,
-                          });
-                          return { ...a, passingValue: e.target.value * 1 };
-                        } else {
-                          return a;
-                        }
-                      });
-                      localforage.setItem("aircrafts", newData);
-                    });
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                marginRight: "5px",
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <div
+                  style={{
+                    width: "80px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
                   }}
-                ></input>
-              </div>
-              <div
-                style={{
-                  width: "80px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <span style={{ fontSize: "15px" }}>Caution</span>
-                <span style={{ fontSize: "15px" }}>Value</span>
-                <input
-                  type="number"
-                  placeholder={aircraft.cautionValue}
-                  className="edit-passing-value-input"
-                  onChange={(e) => {
-                    e.persist();
-                    localforage.getItem("aircrafts").then((resp) => {
-                      const newData = resp.map((a) => {
-                        if (a.aircraftId == aircraft.aircraftId) {
-                          setAircraft({
-                            ...a,
-                            cautionValue: e.target.value * 1,
-                          });
-                          return { ...a, cautionValue: e.target.value * 1 };
-                        } else {
-                          return a;
-                        }
+                >
+                  <span style={{ fontSize: "15px" }}>Go / No Go</span>
+                  <span style={{ fontSize: "15px" }}>Value</span>
+                  <input
+                    type="number"
+                    placeholder={aircraft.passingValue}
+                    className="edit-passing-value-input"
+                    onChange={(e) => {
+                      e.persist();
+                      localforage.getItem("aircrafts").then((resp) => {
+                        const newData = resp.map((a) => {
+                          if (a.aircraftId == aircraft.aircraftId) {
+                            setAircraft({
+                              ...a,
+                              passingValue: e.target.value * 1,
+                            });
+                            return { ...a, passingValue: e.target.value * 1 };
+                          } else {
+                            return a;
+                          }
+                        });
+                        localforage.setItem("aircrafts", newData);
                       });
-                      localforage.setItem("aircrafts", newData);
-                    });
+                    }}
+                  ></input>
+                </div>
+                <div
+                  style={{
+                    width: "80px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
                   }}
-                ></input>
+                >
+                  <span style={{ fontSize: "15px" }}>Caution</span>
+                  <span style={{ fontSize: "15px" }}>Value</span>
+                  <input
+                    type="number"
+                    placeholder={aircraft.cautionValue}
+                    className="edit-passing-value-input"
+                    onChange={(e) => {
+                      e.persist();
+                      localforage.getItem("aircrafts").then((resp) => {
+                        const newData = resp.map((a) => {
+                          if (a.aircraftId == aircraft.aircraftId) {
+                            setAircraft({
+                              ...a,
+                              cautionValue: e.target.value * 1,
+                            });
+                            return { ...a, cautionValue: e.target.value * 1 };
+                          } else {
+                            return a;
+                          }
+                        });
+                        localforage.setItem("aircrafts", newData);
+                      });
+                    }}
+                  ></input>
+                </div>
               </div>
-            </>
+              <div style={{ fontSize: "18px" }}>
+                Total risk points: {riskValues}
+              </div>
+            </div>
           )}
         </div>
       </div>
@@ -326,9 +353,9 @@ export default AircraftChecklistView = () => {
           </div>
         ) : (
           <>
-            <div className="total">
+            {/* <div className="total">
               {currentValue}/{aircraft.passingValue}
-            </div>
+            </div> */}
             <div className="progress-message">{progressMessage}</div>
           </>
         )}
@@ -538,6 +565,7 @@ const Task = ({
         color: completed ? "#7d7d7d" : "unset",
         cursor: "pointer",
         fontWeight: task.itemType == "section" ? "bold" : "unset",
+        // backgroundColor: completed ? "" : "#ff00004f",
       }}
       onClick={() => {
         if (editing) return;
@@ -640,7 +668,12 @@ const Task = ({
         )
       ) : (
         <div className="task-risk-status">
-          <span>{task.riskValue}</span>
+          {/* <span>{task.riskValue}</span> */}
+          {completed ? (
+            <FaThumbsUp color="green" size={23} />
+          ) : (
+            <span>{task.riskValue}</span>
+          )}
           {/*{completed ? (
             <FaCheck color="green" size={23} />
           ) : (*/}

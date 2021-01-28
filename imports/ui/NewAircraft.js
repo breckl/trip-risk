@@ -206,6 +206,14 @@ export default NewAircraft = () => {
         </div>
       </div>
       <div>
+        Total Risk Values:{" "}
+        {tasks.length
+          ? tasks.reduce((a, b) => ({
+              riskValue: a.riskValue + b.riskValue,
+            })).riskValue
+          : 0}
+      </div>
+      <div>
         <div className="tasks-container">
           <DragDropContext onDragEnd={(e) => onDragEnd(e)}>
             <Droppable droppableId="droppable">

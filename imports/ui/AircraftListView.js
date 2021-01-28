@@ -27,8 +27,8 @@ export default AircraftListView = () => {
           {
             aircraftId: 1,
             name: "Twin Cessna",
-            passingValue: 10,
-            cautionValue: 6,
+            passingValue: 80,
+            cautionValue: 105,
           },
         ])
         .then(() => {

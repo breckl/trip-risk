@@ -47,7 +47,7 @@ textarea {
 }
 
 .section {
-  background: white;
+  /* background: white; */
   font-size: 16px;
   cursor: pointer;
 }
