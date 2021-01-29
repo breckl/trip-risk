@@ -5,7 +5,7 @@ export const tasks = [
     order: 1,
     itemType: "section",
     description: "Pilot Qualifiations and Experience",
-    riskValue: 5,
+    riskValue: 0,
   },
   {
     id: 2,
@@ -62,7 +62,7 @@ export const tasks = [
     order: 8,
     itemType: "section",
     description: "Operating Environment",
-    riskValue: 9,
+    riskValue: 0,
   },
   {
     id: 9,
@@ -208,7 +208,7 @@ export const tasks = [
     order: 25,
     itemType: "section",
     description: "Equipment",
-    riskValue: 3,
+    riskValue: 0,
   },
   {
     id: 26,

@@ -169,22 +169,12 @@ export default AircraftChecklistView = () => {
   const riskValueCalc = riskValues - currentValue;
   const progressMessage =
     riskValueCalc > aircraft.cautionValue ? (
-      <span style={{ fontSize: "18px", color: "red" }}>No Go</span>
+      <span style={{ fontSize: "18px" }}>No Go</span>
     ) : riskValueCalc > aircraft.passingValue ? (
-      <span style={{ fontSize: "18px", color: "yellow" }}>Caution</span>
+      <span style={{ fontSize: "18px" }}>Caution</span>
     ) : (
-      <span style={{ fontSize: "18px", color: "green" }}>
-        You're good to go.
-      </span>
+      <span style={{ fontSize: "18px" }}>You're good to go.</span>
     );
-  // const progressMessage =
-  //   riskValueCalc < aircraft.cautionValue ? (
-  //     <span>No Go</span>
-  //   ) : currentValue < aircraft.passingValue ? (
-  //     <span>Caution</span>
-  //   ) : (
-  //     <span>You're good to go.</span>
-  //   );
 
   return loading ? (
     <div>Loading</div>
@@ -343,7 +333,21 @@ export default AircraftChecklistView = () => {
           </Droppable>
         </DragDropContext>
       </div>
-      <div className="assessment-container">
+      <div
+        className="assessment-container"
+        style={
+          editAircraft
+            ? { backgroundColor: "white" }
+            : {
+                backgroundColor:
+                  riskValueCalc > aircraft.cautionValue
+                    ? "red"
+                    : riskValueCalc > aircraft.passingValue
+                    ? "yellow"
+                    : "green",
+              }
+        }
+      >
         {editAircraft ? (
           <div className="done-editing">
             <PrimaryButton
@@ -354,12 +358,12 @@ export default AircraftChecklistView = () => {
             </PrimaryButton>
           </div>
         ) : (
-          <>
-            {/* <div className="total">
-              {currentValue}/{aircraft.passingValue}
-            </div> */}
-            <div className="progress-message">{progressMessage}</div>
-          </>
+          <div
+            style={{ width: "100%", height: "100%" }}
+            className="progress-message"
+          >
+            {progressMessage}
+          </div>
         )}
       </div>
       {deletingAircraft && (
@@ -639,11 +643,11 @@ const Task = ({
           <>
             <div className="section">
               <span
-                style={
-                  completed
-                    ? { color: "#7d7d7d", textDecoration: "line-through" }
-                    : {}
-                }
+              // style={
+              //   completed
+              //     ? { color: "#7d7d7d", textDecoration: "line-through" }
+              //     : {}
+              // }
               >
                 {task.description}
               </span>
