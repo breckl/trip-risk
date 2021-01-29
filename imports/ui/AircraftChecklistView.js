@@ -169,11 +169,13 @@ export default AircraftChecklistView = () => {
   const riskValueCalc = riskValues - currentValue;
   const progressMessage =
     riskValueCalc > aircraft.cautionValue ? (
-      <span>No Go</span>
+      <span style={{ fontSize: "18px", color: "red" }}>No Go</span>
     ) : riskValueCalc > aircraft.passingValue ? (
-      <span>Caution</span>
+      <span style={{ fontSize: "18px", color: "yellow" }}>Caution</span>
     ) : (
-      <span>You're good to go.</span>
+      <span style={{ fontSize: "18px", color: "green" }}>
+        You're good to go.
+      </span>
     );
   // const progressMessage =
   //   riskValueCalc < aircraft.cautionValue ? (

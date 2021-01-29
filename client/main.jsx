@@ -26,8 +26,8 @@ Meteor.startup(() => {
         {
           aircraftId: 1,
           name: "Twin Cessna",
-          passingValue: 80,
-          cautionValue: 105,
+          passingValue: 24,
+          cautionValue: 62,
         },
       ]);
     }
