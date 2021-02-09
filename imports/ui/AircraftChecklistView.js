@@ -169,11 +169,11 @@ export default AircraftChecklistView = () => {
   const riskValueCalc = riskValues - currentValue;
   const progressMessage =
     riskValueCalc > aircraft.cautionValue ? (
-      <span style={{ fontSize: "18px" }}>No Go</span>
+      <span style={{ fontSize: "18px" }}>No go!</span>
     ) : riskValueCalc > aircraft.passingValue ? (
       <span style={{ fontSize: "18px" }}>Caution</span>
     ) : (
-      <span style={{ fontSize: "18px" }}>You're good to go.</span>
+      <span style={{ fontSize: "18px" }}>You're good to go!</span>
     );
 
   return loading ? (
@@ -345,6 +345,12 @@ export default AircraftChecklistView = () => {
                     : riskValueCalc > aircraft.passingValue
                     ? "yellow"
                     : "green",
+                color:
+                  riskValueCalc > aircraft.cautionValue
+                    ? "white"
+                    : riskValueCalc > aircraft.passingValue
+                    ? "black"
+                    : "white",
               }
         }
       >
@@ -568,9 +574,9 @@ const Task = ({
       className="task"
       style={{
         minHeight: editing ? "85px" : "65px",
-        color: completed ? "#7d7d7d" : "unset",
+        color: completed ? "green" : "unset",
         cursor: "pointer",
-        fontWeight: task.itemType == "section" ? "bold" : "unset",
+        fontWeight: task.itemType == "section" || completed ? "bold" : "unset",
         // backgroundColor: completed ? "" : "#ff00004f",
       }}
       onClick={() => {
