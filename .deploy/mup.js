@@ -2,10 +2,10 @@ module.exports = {
   servers: {
     one: {
       // TODO: set host address, username, and authentication method
-      host: "142.93.72.93",
+      host: "104.248.178.201",
       username: "root",
       // pem: './path/to/pem'
-      // password: 'server-password'
+      password: "XD2-N&a4yP+eJpwCH",
       // or neither for authenticate from ssh-agent
     },
   },
@@ -26,7 +26,8 @@ module.exports = {
     env: {
       // TODO: Change to your app's url
       // If you are using ssl, it needs to start with https://
-      ROOT_URL: "http://142.93.72.93",
+      // ROOT_URL: "https://104.248.178.201",
+      ROOT_URL: "https://myflightrisk.com",
       MONGO_URL: "mongodb://mongodb/meteor",
       MONGO_OPLOG_URL: "mongodb://mongodb/local",
     },
@@ -54,12 +55,13 @@ module.exports = {
   // Use the proxy to setup ssl or to route requests to the correct
   // app when there are several apps
 
-  // proxy: {
-  //   domains: 'mywebsite.com,www.mywebsite.com',
+  proxy: {
+    domains: "myflightrisk.com,www.myflightrisk.com",
 
-  //   ssl: {
-  //     // Enable Let's Encrypt
-  //     letsEncryptEmail: 'email@domain.com'
-  //   }
-  // }
+    ssl: {
+      // Enable Let's Encrypt
+      letsEncryptEmail: "austin.radall.47@gmail.com",
+      forceSSL: true,
+    },
+  },
 };

@@ -1,21 +1,21 @@
 /* eslint-disable */
 const HTMLToCache = "/";
-const version = "1.1.20";
+const version = "1.1.20554567445";
 
 self.addEventListener("install", function (event) {
   event.waitUntil(
     caches.open(version).then((cache) => {
       return cache.addAll([
-        "/imports/ui/AircraftChecklistView.js",
-        "/imports/ui/AircraftListView.js",
-        "/imports/ui/App.jsx",
-        "/imports/ui/Header.jsx",
-        "/imports/ui/NewAircraft.jsx",
-        "/imports/ui/common/Button.jsx",
-        "/client/main.jsx",
-        "/client/main.css",
-        "/client/main.html",
-        "/client/main.less",
+        // "/imports/ui/AircraftChecklistView.js",
+        // "/imports/ui/AircraftListView.js",
+        // "/imports/ui/App.jsx",
+        // "/imports/ui/Header.jsx",
+        // "/imports/ui/NewAircraft.jsx",
+        // "/imports/ui/common/Button.jsx",
+        // "/client/main.jsx",
+        // "/client/main.css",
+        // "/client/main.html",
+        // "/client/main.less",
         "/",
       ]);
     })
@@ -41,11 +41,6 @@ self.addEventListener("fetch", (event) => {
   const requestToFetch = event.request.clone();
   event.respondWith(
     caches.match(event.request.clone()).then((cached) => {
-      console.log(
-        "🚀 ~ file: sw.js ~ line 42 ~ self.addEventListener ~ requestToFetch",
-        requestToFetch
-      );
-      console.log("🚀 ~ file: sw.js ~ line 44 ~ caches.match ~ cached", cached);
       // We don't return cached HTML (except if fetch failed)
       if (cached) {
         const resourceType = cached.headers.get("content-type");
@@ -72,7 +67,6 @@ self.addEventListener("fetch", (event) => {
             clonedResponse.type !== "basic" ||
             /\/sockjs\//.test(event.request.url)
           ) {
-            console.log({ clonedResponse });
             return response;
           }
           if (/html/.test(contentType)) {
