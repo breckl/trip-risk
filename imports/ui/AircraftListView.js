@@ -1,14 +1,27 @@
 import React from "react";
 import { SecondaryButton, PrimaryButton } from "./common/Button";
-import { useHistory } from "react-router-dom";
+import { Prompt, useHistory } from "react-router-dom";
 import localforage from "localforage";
 import { tasks } from "/client/InitialData";
 import { BsPlusCircle, BsPlusCircleFill } from "react-icons/bs";
+import { InstallPWA } from "./InstallModal";
+import useIsIOS from "../hooks";
 
 export default AircraftListView = () => {
+  const { prompt } = useIsIOS();
   let history = useHistory();
   const [aircrafts, setAircrafts] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const [showPromt, setShowPromt] = React.useState(false);
+
+  localforage.getItem("dismissedPrompt").then((resp) => {
+    if (resp == true) {
+      //do nothing
+    } else {
+      setShowPromt(true);
+    }
+  });
+
   React.useEffect(() => {
     localforage.getItem("aircrafts").then((resp) => {
       if (!resp || resp.length == 0) {
@@ -51,6 +64,8 @@ export default AircraftListView = () => {
         alignItems: "center",
       }}
     >
+      <InstallPWA />
+      {/* {prompt && showPromt && <InstallPWA />} */}
       <div style={{ margin: "10px 0" }}>Choose an aircraft:</div>
       {aircrafts.map((plane) => {
         return (

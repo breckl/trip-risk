@@ -1,6 +1,6 @@
 /* eslint-disable */
 const HTMLToCache = "/";
-const version = "1.1.20554567445";
+const version = "2.0.0asdvadfbvdaf";
 
 self.addEventListener("install", function (event) {
   event.waitUntil(
